@@ -39,6 +39,7 @@
     height: calc(100px * 3 / 2);
     word-break: break-all;
     overflow: hidden;
+    font-size: 12px;
 }
 
 .clubInterview {
