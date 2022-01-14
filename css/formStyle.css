@@ -1,0 +1,152 @@
+.clubForm {
+    height: 50%;
+    width:90vmin;
+}
+
+.option {
+    width: 50%;
+    min-width: 520px;
+}
+
+.gridForm {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    column-gap: 10px;
+    row-gap: 20px;
+    width: 100%;
+}
+
+.form_style {
+    width:100%;
+    height:50px;
+    display:flex;
+    border: 1px solid var(--main-color);
+    align-items: center;
+    border-radius: 7px;
+    background-color: white;
+}
+
+.form_style:nth-child(6) {
+    height:auto;
+    align-items: flex-start;
+}
+
+.form_style:nth-child(6) > textarea {
+    resize: none;
+    width: calc(100% - 40px);
+    height: calc(100% - 30px);
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: none;
+    outline: none;
+}
+
+.form_style:nth-child(6) > label {
+    height:auto;
+    margin-top: 10px;
+}
+
+.form_style input {
+    width:100%;
+    height:100%;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-radius: 7px;
+}
+
+.form_style textarea {
+    width:100%;
+    height:100%;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-radius: 7px;
+}
+
+.form_style input:focus,
+.form_style input:valid {
+    outline: none;
+    height:calc(100% - 18px);
+    padding: 0px 0px 0px 20px;
+    margin: 18px 0px 0px 0px;
+}
+
+.form_style label {
+    position: absolute;
+    font-size: 1rem;
+    margin-left: 20px;
+    transition: 0.2s;
+}
+
+.form_style input:focus ~ label,
+.form_style input:valid ~ label {
+    font-size: 0.85rem;
+    transform: translateY(-11px);
+}
+
+.submit { 
+    color: var(--semi-color); 
+    text-decoration: none;
+    background-color: var(--main-color);
+    border-radius: 7px;
+    transition: all 0.2s;
+    border:10px solid var(--main-color);
+    border-width:9px 10px;
+    width:100%;
+    height:50px;
+}
+.submit:hover {
+    color: var(--main-color);
+    background-color: var(--semi-color);
+    border:10px solid var(--semi-color);
+    border-width:8px 9px;
+    outline: 1px solid var(--main-color);
+}
+
+.item:nth-child(1) {
+    grid-column: 2 / 5;
+	grid-row: 1 / 2;
+}
+
+.item:nth-child(2) {
+    grid-column: 7 / 8;
+	grid-row: 1 / 2;
+}
+
+.item:nth-child(3) {
+    grid-column: 2 / 4;
+	grid-row: 2 / 3;
+}
+
+.item:nth-child(4) {
+    grid-column: 4 / 6;
+	grid-row: 2 / 3;
+}
+
+.item:nth-child(5) {
+    grid-column: 6 / 8;
+	grid-row: 2 / 3;
+}
+
+.item:nth-child(6) {
+    grid-column: 2 / 8;
+	grid-row: 3 / 6;
+}
+
+.item:nth-child(7) {
+    grid-column: 2 / 4;
+	grid-row: 6 / 7;
+}
+
+.item:nth-child(8) {
+    grid-column: 4 / 6;
+	grid-row: 6 / 7;
+}
+
+.item:nth-child(9) {
+    grid-column: 6 / 8;
+	grid-row: 6 / 7;
+}

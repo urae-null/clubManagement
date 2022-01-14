@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/clubContainer.css">
+    <link rel="stylesheet" href="css/formStyle.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="js/db.js"></script>
-    <script>window.onload = loadClubList()</script>
+
     <link rel="shortcut icon" href="img/favicon.ico">
     <title>2022 동아리 관리</title>
 </head>
@@ -27,7 +27,45 @@
         </div>
     </div>
     <div class="mainpage">
-        <div class="option"></div>
+        <div class="option">
+            <form action="" method="GET" class="gridForm" id="application" target="dummyframe">
+                <div class="form_style item">
+                    <input name='subject' id= "subject" type='text' value='' autocomplete="off" required>
+                    <label for="subject">과목</label>
+                </div>
+                <input class='submit item' type="button" value="저장" onclick="sign()">
+                <div class="form_style item">
+                    <input name='poster' id="poster" type="text" value='' autocomplete="off" required>
+                    <label for="poster">포스터주소</label>
+                </div>
+                <div class="form_style item">
+                    <input name='logo' id="logo" type="text" value='' autocomplete="off" required>
+                    <label for="logo">로고주소</label>
+                </div>
+                <div class="form_style item">
+                    <input name='link' id="link" type="text" value='' autocomplete="off" required>
+                    <label for="link">자소서링크</label>
+                </div>
+                <div class="form_style item">
+                    <textarea name='intro' id="intro" type="text" value='' autocomplete="off" required></textarea>
+                    <label for="intro">소개</label>
+                </div>
+                <div class="form_style item">
+                    <input name='interview' id="interview" type="text" value='' autocomplete="off" required>
+                    <label for="interview">면접유무</label>
+                </div>
+                <div class="form_style item">
+                    <input name='date' id="date" type="text" value='' autocomplete="off" required>
+                    <label for="date">면접일시</label>
+                </div>
+                <div class="form_style item">
+                    <input name='myself' id="myself" type="text" value='' autocomplete="off" required>
+                    <label for="myself">자소서유무</label>
+                </div>
+                <input name='name' type='text' value='' autocomplete="off" required style="display: none;">
+                <input name='group' type='text' value='' autocomplete="off" required style="display: none;">
+            </form>
+        </div>
         <div class="clubExplainContainer">
             <div class="clubExplain" id="clubExplain">
                 <div class="loading">
@@ -37,6 +75,9 @@
             </div>
         </div>
     </div>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
 </body>
 <script src="js/animation.js"></script>
+<script src="js/db.js"></script>
+<script>window.onload = loadClubList()</script>
 </html>

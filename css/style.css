@@ -26,16 +26,17 @@ body {
     height: calc(100vh - 104px);
     display: flex;
     align-items: center;
+    overflow-y: hidden;
 
 }
 
 .clubContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+    grid-template-columns: repeat(auto-fill, 62px);
     grid-gap: 10px 20px;
     gap: 10px 20px;
     margin:10px 0 0 0;
-    width:calc(100vw - 376px);
+    width:800px;
 }
 
 .clubContainer > div {
@@ -59,14 +60,15 @@ body {
 }
 
 .clubExplainContainer {
-    width:clamp(0px,45vw,540px);
-    height:360px;
+    width:clamp(0px,100vw,810px);
+    height:540px;
     overflow-y: hidden;
     overflow-x: auto;
+    border: black solid 1px;
 }
 
 .clubExplain {
-    width:540px;
+    width:810px;
     height:100%;
     transform: translateY(0);
     transition: 1s;
@@ -74,7 +76,7 @@ body {
 
 .loading {
     height:35vh;
-    width: 540px;
+    width: 810px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,6 +99,7 @@ body {
     display: flex;
     flex-direction: row;
     margin:20px 10px 0 10px;
+    min-width: 160px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none
 }
 
