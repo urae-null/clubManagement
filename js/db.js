@@ -30,11 +30,11 @@ function clubContainer(data) {
     var container = `
     <div id="${data.name}" style="display:flex;">
     <div class="clubPoster">
-        <img id="posterC${data.name}" style="width: 80%; margin: auto;" src="${data.poster}">
+        <img id="posterC${data.name}" style="height:540px; margin: auto;" src="${data.poster}.png" referrerpolicy="no-referrer">
     </div>
     <div style="height: 540px; width: 50%;">
         <div style="height: calc(87.5px * 3 / 2);">
-            <img id="logoC${data.name}" style="width: calc(31px * 3 / 2); height: calc(31px * 3 / 2); text-align: left;" src="${data.logo}">
+            <img id="logoC${data.name}" style="width: calc(31px * 3 / 2); height: calc(31px * 3 / 2); text-align: left;" src="${data.logo}.png" referrerpolicy="no-referrer">
             <p class="clubName" id="nameC${data.name}">${data.name}</p>
         </div>
         <div class="clubType" id="groupC${data.name}">제${data.group}동아리</div>

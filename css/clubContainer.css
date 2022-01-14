@@ -1,5 +1,5 @@
 .clubPoster {
-    background-color: white;
+    background-color: var(--semi-color);
     height: 100%;
     width: 50%;
     text-align: center;
