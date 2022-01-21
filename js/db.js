@@ -1,6 +1,8 @@
 var data;
 var url;
 var clubNumber = 1;
+var studentList;
+
 
 function loadClubList(){
     url = 'https://script.google.com/macros/s/AKfycbz48SfrCNoyzAC2Y4cassb96sI35bHVK6wXZ12gB4x9yr6JPzBeerH7Tj_DONO6js4ziQ/exec'
@@ -21,6 +23,14 @@ function loadClubList(){
                 clubExplain.innerHTML += clubContainer(data[i])
             }
             console.log(data)
+        }).catch(() => {
+            console.log('error')
+    });
+    fetch('https://script.google.com/macros/s/AKfycbyoVFjOc0iMdrnCL2leJvQ3lwWMcIUm9CeJyVCC35_WKyDIdpFI7gOWoHoGPchd9ReBeQ/exec')
+        .then(response => response.json())
+        .then(json => {
+            studentList = json.list
+            console.log(studentList)
         }).catch(() => {
             console.log('error')
     });
@@ -56,10 +66,18 @@ function clubContainer(data) {
     return container;
 }
 
-function moveY(cnt) {
+var applicationCnt = 0;
+var passCnt = 0;
+
+async function moveY(cnt) {
     var clubExplain = document.getElementById("clubExplain");
     clubExplain.style.transform = `translateY(-${cnt*540}px)`;
     insertSign(cnt);
+
+    applicationCnt = 0
+    passCnt = 0
+    await studentSort(cnt);
+    numberCount()
 }
 
 function insertSign(cnt) {
@@ -75,6 +93,66 @@ function insertSign(cnt) {
     appliForm.poster.value = data[cnt].poster;
     appliForm.logo.value = data[cnt].logo;
     appliForm.link.value = data[cnt].link;
+}
+
+function studentSort(cnt) {
+    var applicationList = document.getElementById("list-application");
+    var passList = document.getElementById("list-pass");
+    applicationList.innerHTML = ''
+    passList.innerHTML = ''
+    for (let i in studentList) {
+        if(studentList[i].firstClub.includes(cnt)) {
+            if (studentList[i].passOrNotFirstClub[studentList[i].firstClub.indexOf(cnt)] == "합격") {
+                passList.innerHTML += tableContainer(studentList[i],1)
+                passCnt += 1
+            } else {
+                applicationList.innerHTML += tableContainer(studentList[i],1)
+                applicationCnt += 1
+            }
+        } else if(studentList[i].secondClub.includes(cnt)) {
+            if (studentList[i].passOrNotSecondClub[studentList[i].secondClub.indexOf(cnt)] == "합격") {
+                passList.innerHTML += tableContainer(studentList[i],2)
+                passCnt += 1
+            } else {
+                applicationList.innerHTML += tableContainer(studentList[i],2)
+                applicationCnt += 1
+            }
+        }
+    }
+}
+
+function numberCount() {
+    var applicationStudentNumber = document.getElementById("countApplicationStudent");
+    var passStudentNumber = document.getElementById("countPassStudent");
+    applicationStudentNumber.innerHTML = `(${applicationCnt}명)`
+    passStudentNumber.innerHTML = `(${passCnt}명)`
+}
+
+function tableContainer(student,cnt) {
+    var passOrNot
+    if (cnt == 1) {
+        passOrNot = [...student.passOrNotFirstClub]
+    } else if (cnt == 2) {
+        passOrNot = [...student.passOrNotSecondClub]
+    }
+    for (let i = 0 ; i <= 1 ; i++) {
+        if (passOrNot[i] == "합격") {
+            passOrNot[i] = 'green'
+        } else if (passOrNot[i] == "불합격") {
+            passOrNot[i] = 'red'
+        } else if (passOrNot[i] == "검토중") {
+            passOrNot[i] = 'yellow'
+        }
+    }
+    var container = 
+    `<tr id = "${student.number}">
+        <td>${student.number}</td>
+        <td>${student.name}</td>
+        <td><div>${cnt == 1 ? data[student.firstClub[0]].name : data[student.secondClub[0]].name}<div style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[0]}-color);margin:0 0 0 5px;"></div></div></td>
+        <td><div>${cnt == 1 ? data[student.firstClub[1]].name : data[student.secondClub[1]].name}<div style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[1]}-color);margin:0 0 0 5px;"></div></div></td>
+        <td><a href="javascript:void(0);" onclick="callFunction();"><img src="/img/baseline_swap_horiz_black_24dp.png" width="30px"></a></td>
+    </tr>`
+    return container
 }
 
 document.getElementById('application').addEventListener('change', function(event){

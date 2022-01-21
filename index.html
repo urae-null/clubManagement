@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/clubContainer.css">
     <link rel="stylesheet" href="css/formStyle.css">
+    <link rel="stylesheet" href="css/tableStyle.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
@@ -15,7 +16,7 @@
     <title>2022 동아리 관리</title>
 </head>
 <body>
-    <div style="display:flex;width: 100vw;margin-top: 10px;">
+    <div class="topbar">
         <div class="switch">
             <label for="select">1동아리</label>
             <input type="checkbox" name="select" id="select" style="display: none;">
@@ -26,7 +27,14 @@
             <div class="clubContainer" id="firstList"></div>
             <div class="clubContainer" id="secondList"></div>
         </div>
+        <div class="menu">
+            <div class="background-box" id="background-box"></div>
+            <label for="select-menu" id="menu-first">홍보</label>
+            <input type="checkbox" name="select-menu" id="select-menu" style="display: none;">
+            <label for="select-menu" id="menu-second">선발</label>
+        </div>
     </div>
+    <div class="viewpage">
     <div class="mainpage">
         <div class="option">
             <form action="" method="GET" class="gridForm" id="application" target="dummyframe">
@@ -75,8 +83,50 @@
                 </div>
             </div>
         </div>
+        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
     </div>
-    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+    <div class="semipage" id="semipage">
+        <div class="countStudent" id="notPass">
+            <div class="semipage-title">
+                <div class="semipge-title_name">신청자명단<div id="countApplicationStudent">(0명)</div></div>
+            </div>
+            <div class="semipage-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>학번</th>
+                            <th>이름</th>
+                            <th>1지망</th>
+                            <th>2지망</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-application"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="countStudent" id="pass">
+            <div class="semipage-title">
+                <div class="semipge-title_name">합격자명단<div id="countPassStudent">(0명)</div></div>
+                <a href="">확인</a>
+            </div>
+            <div class="semipage-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>학번</th>
+                            <th>이름</th>
+                            <th>1지망</th>
+                            <th>2지망</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="list-pass"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 <script src="js/animation.js"></script>
 <script src="js/db.js"></script>
