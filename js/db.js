@@ -68,14 +68,13 @@ function clubContainer(data) {
 
 var applicationCnt = 0;
 var passCnt = 0;
+var tmpStudentList = [];
 
 async function moveY(cnt) {
     var clubExplain = document.getElementById("clubExplain");
     clubExplain.style.transform = `translateY(-${cnt*540}px)`;
     insertSign(cnt);
 
-    applicationCnt = 0
-    passCnt = 0
     await studentSort(cnt);
     numberCount()
 }
@@ -95,20 +94,27 @@ function insertSign(cnt) {
     appliForm.link.value = data[cnt].link;
 }
 
+var applicationList = document.getElementById("list-application");
+var passList = document.getElementById("list-pass");
+
 function studentSort(cnt) {
-    var applicationList = document.getElementById("list-application");
-    var passList = document.getElementById("list-pass");
+    applicationCnt = 0
+    passCnt = 0
+    tmpStudentList = []
     applicationList.innerHTML = ''
     passList.innerHTML = ''
     for (let i in studentList) {
+        var tmpStudentData = []
         if(studentList[i].firstClub.includes(cnt)) {
-            if (studentList[i].passOrNotFirstClub[studentList[i].firstClub.indexOf(cnt)] == "합격") {
+            var index = studentList[i].firstClub.indexOf(cnt);
+            if (studentList[i].passOrNotFirstClub[index] == "합격") {
                 passList.innerHTML += tableContainer(studentList[i],1)
                 passCnt += 1
             } else {
                 applicationList.innerHTML += tableContainer(studentList[i],1)
                 applicationCnt += 1
             }
+            tmpStudentData = [studentList[i].number, studentList[i].passOrNotFirstClub[index]]
         } else if(studentList[i].secondClub.includes(cnt)) {
             if (studentList[i].passOrNotSecondClub[studentList[i].secondClub.indexOf(cnt)] == "합격") {
                 passList.innerHTML += tableContainer(studentList[i],2)
@@ -117,9 +123,12 @@ function studentSort(cnt) {
                 applicationList.innerHTML += tableContainer(studentList[i],2)
                 applicationCnt += 1
             }
+            tmpStudentData = [studentList[i].number, studentList[i].passOrNotSecondClub[index]]
         }
+        tmpStudentList.push(tmpStudentData)
     }
 }
+
 
 function numberCount() {
     var applicationStudentNumber = document.getElementById("countApplicationStudent");
@@ -148,11 +157,65 @@ function tableContainer(student,cnt) {
     `<tr id = "${student.number}">
         <td>${student.number}</td>
         <td>${student.name}</td>
-        <td><div>${cnt == 1 ? data[student.firstClub[0]].name : data[student.secondClub[0]].name}<div style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[0]}-color);margin:0 0 0 5px;"></div></div></td>
-        <td><div>${cnt == 1 ? data[student.firstClub[1]].name : data[student.secondClub[1]].name}<div style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[1]}-color);margin:0 0 0 5px;"></div></div></td>
-        <td><a href="javascript:void(0);" onclick="callFunction();"><img src="/img/baseline_swap_horiz_black_24dp.png" width="30px"></a></td>
+        <td><div>${cnt == 1 ? data[student.firstClub[0]].name : data[student.secondClub[0]].name}<div class="${cnt == 1 ? student.firstClub[0] : student.secondClub[0]}" style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[0]}-color);margin:0 0 0 5px;"></div></div></td>
+        <td><div>${cnt == 1 ? data[student.firstClub[1]].name : data[student.secondClub[1]].name}<div class="${cnt == 1 ? student.firstClub[1] : student.secondClub[1]}" style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[1]}-color);margin:0 0 0 5px;"></div></div></td>
+        <td><a href="javascript:void(0);" onclick="transStudentPassOrFail(${student.number});"><img src="/img/baseline_swap_horiz_black_24dp.png" width="30px"></a></td>
     </tr>`
     return container
+}
+
+function transStudentPassOrFail(studentNumber) {
+    var studentElement = document.getElementById(studentNumber)
+    var studentPassOrFail = document.querySelector('[id="' + studentNumber + '"] [class="' + clubNumber + '"]')
+    const tmpStudentArrayIndex = tmpStudentList.findIndex(student => {
+        if (student[0] == studentNumber) { return true }
+    })
+    if (tmpStudentList[tmpStudentArrayIndex][1] == "합격") {
+        studentPassOrFail.style.backgroundColor = 'var(--red-color)'
+        tmpStudentList[tmpStudentArrayIndex][1] = "불합격"
+        applicationList.appendChild(studentElement)
+        applicationCnt += 1
+        passCnt -= 1
+    } else {
+        studentPassOrFail.style.backgroundColor = 'var(--green-color)'
+        tmpStudentList[tmpStudentArrayIndex][1] = "합격"
+        passList.appendChild(studentElement)
+        applicationCnt -= 1
+        passCnt += 1
+    }
+    numberCount()
+}
+
+function modifyStudentPassOrFail() {
+    let url = 'https://script.google.com/macros/s/AKfycbyjuTlI1BZ4NXpH9-IVF2SE9yq6KVTqmuNp1pnJCtEGN3PyrRmqxqCWyBIuownUwgY4Fg/exec'
+    fetch(url,{
+        method: "POST",
+        contentType: "application/json",
+        body: JSON.stringify({
+            club : clubNumber,
+            studentData : tmpStudentList
+        }),
+        })
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+            if (json.result == "success") {
+                M.toast({html: '수정되었습니다.',inDuration: 200, outDuration:200})
+                setTimeout(()=>{
+                    location.reload();
+                },2000)
+            } else if (json.result == "duple") {
+                M.toast({html: '1지망을 합격한 학생이 포함되었습니다',inDuration: 200, outDuration:200})
+                setTimeout(()=>{
+                    location.reload();
+                },2000)
+            } else {
+                M.toast({html: '다시 시도해 주세요.',inDuration: 200, outDuration:200})
+            }
+        }).catch(() => {
+            M.toast({html: '다시 시도해 주세요.',inDuration: 200, outDuration:200})
+            console.log('error')
+    });
 }
 
 document.getElementById('application').addEventListener('change', function(event){
