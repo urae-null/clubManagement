@@ -159,7 +159,7 @@ function tableContainer(student,cnt) {
         <td>${student.name}</td>
         <td><div>${cnt == 1 ? data[student.firstClub[0]].name : data[student.secondClub[0]].name}<div class="${cnt == 1 ? student.firstClub[0] : student.secondClub[0]}" style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[0]}-color);margin:0 0 0 5px;"></div></div></td>
         <td><div>${cnt == 1 ? data[student.firstClub[1]].name : data[student.secondClub[1]].name}<div class="${cnt == 1 ? student.firstClub[1] : student.secondClub[1]}" style="width:10px;height:10px;border-radius:100%;background-color:var(--${passOrNot[1]}-color);margin:0 0 0 5px;"></div></div></td>
-        <td><a href="javascript:void(0);" onclick="transStudentPassOrFail(${student.number});"><img src="/img/baseline_swap_horiz_black_24dp.png" width="30px"></a></td>
+        <td><a href="javascript:void(0);" onclick="transStudentPassOrFail(${student.number});"><img src="./img/baseline_swap_horiz_black_24dp.png" width="30px"></a></td>
     </tr>`
     return container
 }
