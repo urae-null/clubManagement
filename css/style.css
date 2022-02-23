@@ -127,10 +127,13 @@ body {
     margin: 0 10px 0 0;
     transition: 0.2s;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     cursor: pointer;
+    text-align: center;
+    line-height: 35px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
 }
 
 .clubContainer > div:hover {
