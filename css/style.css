@@ -36,6 +36,11 @@ body {
     justify-content:space-between;
 }
 
+.top {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 .mainpage,
 .semipage {
     height: calc(100vh - 104px);
